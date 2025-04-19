@@ -7,32 +7,35 @@ spring:
 
   cloud:
     gateway:
-      mvc:
-        routes:
-          - id: USER-SERVICE
-            uri: lb://USER-SERVICE
-            predicates:
-              - Path=/auth/**,/users/**,/api/users/**,/
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/auth/**,/users/**,/api/users/**,/
 
-          - id: TASK-SERVICE
-            uri: lb://TASK-SERVICE
-            predicates:
-              - Path=/tasks/**,/api/tasks/**
+        - id: TASK-SERVICE
+          uri: lb://TASK-SERVICE
+          predicates:
+            - Path=/tasks/**,/api/tasks/**
 
-          - id: SUBMISSION-SERVICE
-            uri: lb://SUBMISSION-SERVICE
-            predicates:
-              - Path=/submissions/**,/api/submissions/**
+        - id: SUBMISSION-SERVICE
+          uri: lb://SUBMISSION-SERVICE
+          predicates:
+            - Path=/submissions/**,/api/submissions/**
 
-        default-filters:
-          - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
 
-        globalcors:
-          cors-configuration:
-            '[/**]':
-              allowedOrigins: "*"
-              allowedMethods: "*"
-              allowedHeaders: "*"
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
 
 eureka:
   instance:
